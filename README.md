@@ -1,4 +1,4 @@
-# showflix
+# ShowFlix
 
 ## Project setup
 ```
