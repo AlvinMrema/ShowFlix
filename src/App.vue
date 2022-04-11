@@ -48,14 +48,13 @@ import TheHeader from "@/components/TheHeader.vue";
 import TheFooter from "@/components/TheFooter.vue";
 import SeriesPage from "@/pages/SeriesPage.vue";
 import MoviesPage from "@/pages/MoviesPage.vue";
-import HomePage from "@/pages/HomePage.vue"
+import HomePage from "@/pages/HomePage.vue";
 
 export default {
   name: "App",
   components: { TheHeader, TheFooter, SeriesPage, MoviesPage, HomePage },
   data() {
     return {
-      contentData: sample,
       categories: ["movies", "series"],
       showMovies: false,
       showSeries: false,
@@ -63,15 +62,25 @@ export default {
     };
   },
   computed: {
+    contentData() {
+      const data = sample.entries.filter((data) => data.releaseYear >= 2010);
+      data.sort((a, b) => { 
+        if (a.title < b.title) {
+          return -1;
+        }
+        if (a.title > b.title) {
+          return 1;
+        }
+
+        return 0;
+      });
+      return data;
+    },
     moviesList() {
-      return this.contentData.entries.filter(
-        (data) => data.programType === "movie"
-      );
+      return this.contentData.filter((data) => data.programType === "movie");
     },
     seriesList() {
-      return this.contentData.entries.filter(
-        (data) => data.programType === "series"
-      );
+      return this.contentData.filter((data) => data.programType === "series");
     },
   },
   methods: {
